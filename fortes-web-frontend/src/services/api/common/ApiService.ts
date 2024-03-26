@@ -52,7 +52,8 @@ class ApiService<T extends ModelBase> {
 
   async update(entity: T): Promise<ApiResponse<void>> {
     try {
-      await axios.put(`${this.baseUrl}/${entity.id}`, entity);
+      debugger;
+      await axios.put(`${this.baseUrl}`, entity);
       return {
         data: null,
         isSuccess: true,

@@ -1,11 +1,13 @@
 import { IonIcon } from '@ionic/react';
 import notification from 'antd/es/notification';
-import { trashOutline } from 'ionicons/icons';
+import { pencilOutline, trashOutline } from 'ionicons/icons';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { Button } from '~/components/Button';
 import { Table } from '~/components/Table';
 import ProductService from '~/services/api/products/ProductService';
 import { ContentButtonProduct, LinkNewProduct, TitleProduct } from './style';
+import ProductModel from '~/services/api/products/Product';
+import { useNavigate } from 'react-router-dom';
 
 export const Product: FC = () => {
   const [limit, setLimit] = useState(5);
@@ -13,6 +15,8 @@ export const Product: FC = () => {
   const [totalItems, setTotalItems] = useState(0);
   const [Products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [, setEditingProduct] = useState(null);
+  const navigate = useNavigate(); 
 
   const columns = [
     {
@@ -36,7 +40,7 @@ export const Product: FC = () => {
       key: 'value',
     },
     {
-      title: 'Ações',
+      title: 'Excluir',
       key: 'actions',
       render: (_text: any, record: any) => (
         <div onClick={() => fetchDeleteProduct(record.id)}>
@@ -44,7 +48,21 @@ export const Product: FC = () => {
         </div>
       ),
     },
+    {
+      title: 'Editar',
+        key: 'edit',
+        render: (_text: any, record: ProductModel) => (
+          <div onClick={() => handleEditProduct(record)}>
+            <IonIcon icon={pencilOutline} />
+          </div>
+        ),
+    }
   ];
+
+  const handleEditProduct = (product: ProductModel) => {
+    setEditingProduct(Product);
+    navigate('/edit-product', { state: { product } });
+  };
 
   useEffect(() => {
     fetchAllProducts();

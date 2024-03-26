@@ -15,7 +15,7 @@ import SupplierService from '~/services/api/suppliers/SupplierService';
 const schema = z.object({
   name: z.string().min(3, 'Deve ter no mínimo 3 caracteres'),
   description: z.string().min(1, 'É obrigatório'),
-  registrationNumber: z
+  companyRegistrationNumber: z
     .string()
     .min(1, 'É obrigatório')
     .refine((value) => /^\d{14}$/.test(value) || /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/.test(value), {
@@ -89,7 +89,7 @@ export const NewSupplier: FC = () => {
           <Label hasError={!!errors.district}>Estado</Label>
           <TextField placeholder="Estado" {...register('district')} />
           
-          {errors.registrationNumber && <span className="error">{errors.registrationNumber.message}</span>}
+          {errors.companyRegistrationNumber && <span className="error">{errors.companyRegistrationNumber.message}</span>}
         </div>
         <div>
           <Label hasError={!!errors.contactEmail}>E-mail</Label>

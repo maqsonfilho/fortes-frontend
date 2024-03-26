@@ -1,12 +1,12 @@
-import Entity from '../common/ModelBase';
+import ModelBase from '../common/ModelBase';
 
-interface Supplier extends Entity {
+interface Supplier extends ModelBase {
   corporateReason: string;
   companyRegistrationNumber: string;
-  registrationNumber: string;
   district: string;
   contactEmail: string;
   contactName: string;
+  createdAt: Date;
 }
 
 export default Supplier;

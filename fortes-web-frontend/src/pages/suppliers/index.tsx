@@ -1,11 +1,14 @@
 import { IonIcon } from '@ionic/react';
 import { notification } from 'antd';
-import { trashOutline } from 'ionicons/icons';
+import { newspaperOutline, pencilOutline, trashOutline } from 'ionicons/icons';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { Button } from '~/components/Button';
 import { Table } from '~/components/Table';
 import SupplierService from '~/services/api/suppliers/SupplierService';
 import { ContentButtonSupplier, LinkNewSupplier, TitleSupplier } from './style';
+import SupplierModel from '~/services/api/suppliers/Supplier';
+import { useNavigate } from 'react-router-dom';
+import { Order } from '../orders';
 
 export const Supplier: FC = () => {
   const [limit, setLimit] = useState(5);
@@ -13,6 +16,8 @@ export const Supplier: FC = () => {
   const [Suppliers, setSuppliers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalItems, setTotalItems] = useState(0);
+  const [, setEditingSupplier] = useState(null);
+  const navigate = useNavigate(); 
 
   const columns = [
     {
@@ -41,7 +46,7 @@ export const Supplier: FC = () => {
       key: 'contactName',
     },
     {
-      title: 'Ações',
+      title: 'Excluir',
       key: 'actions',
       render: (_text: any, record: any) => (
         <div onClick={() => fetchDeleteSupplier(record.id)}>
@@ -49,7 +54,33 @@ export const Supplier: FC = () => {
         </div>
       ),
     },
+    {
+      title: 'Editar',
+        key: 'edit',
+        render: (_text: any, record: SupplierModel) => (
+          <div onClick={() => handleEditSupplier(record)}>
+            <IonIcon icon={pencilOutline} />
+          </div>
+        ),
+    },
+    {
+      title: 'Pedidos',
+        key: 'edit',
+        render: (_text: any, record: SupplierModel) => (
+          <div onClick={() => handleSeeOrders(record)}>
+            <IonIcon icon={newspaperOutline} />
+          </div>
+        ),
+    }
   ];
+
+  const handleEditSupplier = (supplier: SupplierModel) => {
+    navigate('/edit-supplier', { state: { supplier } });
+  };
+
+  const handleSeeOrders = (supplier: SupplierModel) => {
+    navigate('/supplier-orders', { state: { supplier } });
+  };
 
   useEffect(() => {
     fetchAllSuppliers();
@@ -106,25 +137,7 @@ export const Supplier: FC = () => {
 
   return (
     <>
-      <TitleSupplier>Fornecedor</TitleSupplier>
-
-      <ContentButtonSupplier>
-        <LinkNewSupplier to={'/new-Supplier'}>
-          <Button label="Criar novo fornecedor" disabled={false} loading={loading} />
-        </LinkNewSupplier>
-      </ContentButtonSupplier>
-
-      <Table
-        onPageChange={handlePageChange}
-        onShowSizeChange={handlePageSizeChange}
-        data={Suppliers}
-        columns={columns}
-        pageSize={limit}
-        currentPage={page}
-        showPagination={true}
-        totalItems={totalItems}
-        loading={loading}
-      />
+      <Order />
     </>
   );
 };

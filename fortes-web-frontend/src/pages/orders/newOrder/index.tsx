@@ -1,4 +1,3 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Select, notification } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';

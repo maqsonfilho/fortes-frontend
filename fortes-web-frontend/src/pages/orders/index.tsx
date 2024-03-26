@@ -1,4 +1,5 @@
 import { IonIcon } from '@ionic/react';
+import { useNavigate  } from 'react-router-dom';
 import notification from 'antd/es/notification';
 import { pencilOutline, trashOutline } from 'ionicons/icons';
 import { FC, useCallback, useEffect, useState } from 'react';
@@ -6,6 +7,7 @@ import { Button } from '~/components/Button';
 import { Table } from '~/components/Table';
 import OrderService from '~/services/api/orders/OrderService';
 import { ContentButtonOrder, LinkNewOrder, TitleOrder } from './style';
+import OrderModel from '~/services/api/orders/Order';
 
 export const Order: FC = () => {
   const [limit, setLimit] = useState(5);
@@ -13,6 +15,8 @@ export const Order: FC = () => {
   const [totalItems, setTotalItems] = useState(0);
   const [Orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [, setEditingOrder] = useState(null);
+  const navigate = useNavigate();
 
   const columns = [
     {
@@ -36,7 +40,7 @@ export const Order: FC = () => {
       key: 'totalValue',
     },
     {
-      title: 'Ações',
+      title: 'Excluir',
       key: 'actions',
       render: (_text: any, record: any) => (
         <>
@@ -46,7 +50,21 @@ export const Order: FC = () => {
         </>
       ),
     },
+    {
+      title: 'Editar',
+        key: 'edit',
+        render: (_text: any, record: OrderModel) => (
+          <div onClick={() => handleEditOrder(record)}>
+            <IonIcon icon={pencilOutline} />
+          </div>
+        ),
+    }
   ];
+
+  const handleEditOrder = (order: OrderModel) => {
+    setEditingOrder(order);
+    navigate('/edit-order', { state: { order } });
+  };
 
   useEffect(() => {
     fetchAllOrders();
@@ -121,6 +139,7 @@ export const Order: FC = () => {
         showPagination={true}
         totalItems={totalItems}
         loading={loading}
+        onClick={handleEditOrder}
       />
     </>
   );
