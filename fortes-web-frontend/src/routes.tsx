@@ -7,10 +7,10 @@ import { EditProduct } from './pages/products/editProduct';
 import { Supplier } from './pages/suppliers';
 import { NewSupplier } from './pages/suppliers/newSupplier';
 import { EditSupplier } from './pages/suppliers/editSupplier';
-import { SupplierOrders } from './pages/supplier/supplierOrders';
 import { Order } from './pages/orders';
 import { NewOrder } from './pages/orders/newOrder';
 import { EditOrder } from './pages/orders/editOrder';
+import { SupplierOrders } from './pages/suppliers/supplierOrders';
 
 export const AppRoutes = () => {
   return (

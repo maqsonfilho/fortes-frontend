@@ -137,7 +137,25 @@ export const Supplier: FC = () => {
 
   return (
     <>
-      <Order />
+      <TitleSupplier>Fornecedores</TitleSupplier>
+
+      <ContentButtonSupplier>
+        <LinkNewSupplier to={'/new-Supplier'}>
+          <Button label="Criar novo fornecedor" disabled={false} loading={loading} />
+        </LinkNewSupplier>
+      </ContentButtonSupplier>
+
+      <Table
+        onPageChange={handlePageChange}
+        onShowSizeChange={handlePageSizeChange}
+        data={Suppliers}
+        columns={columns}
+        pageSize={limit}
+        currentPage={page}
+        showPagination={true}
+        totalItems={totalItems}
+        loading={loading}
+      />
     </>
   );
 };

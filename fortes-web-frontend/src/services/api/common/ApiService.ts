@@ -4,7 +4,7 @@ import { BASE_URL } from '~/commons/config';
 import ModelBase from './ModelBase';
 
 class ApiService<T extends ModelBase> {
-  private baseUrl: string;
+  protected baseUrl: string;
 
   constructor(baseUrl: string) {
     this.baseUrl = BASE_URL + baseUrl;
